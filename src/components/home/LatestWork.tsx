@@ -50,7 +50,7 @@ export function LatestWork() {
             <StaggerItem key={item.caption}>
               <Link
                 to={item.link}
-                className="group relative block aspect-square overflow-hidden border border-ink/10 bg-ink"
+                className="group relative block aspect-square overflow-hidden border border-ink/10 bg-bone-dim"
                 data-cursor="hover"
                 data-cursor-label={item.caption}
               >

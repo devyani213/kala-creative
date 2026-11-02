@@ -78,9 +78,8 @@ body {
 }
 .hero-film__wash {
   background:
-    radial-gradient(circle at 72% 24%, rgba(181, 142, 75, 0.16), transparent 28%),
-    linear-gradient(180deg, rgba(16, 28, 43, 0.34) 0%, rgba(16, 28, 43, 0.12) 35%, rgba(16, 28, 43, 0.74) 78%, rgba(16, 28, 43, 0.96) 100%),
-    linear-gradient(90deg, rgba(16, 28, 43, 0.72) 0%, rgba(16, 28, 43, 0.2) 55%, rgba(16, 28, 43, 0.45) 100%);
+    radial-gradient(circle at 72% 24%, rgba(181, 142, 75, 0.12), transparent 40%),
+    linear-gradient(180deg, rgba(16, 28, 43, 0.25) 0%, rgba(16, 28, 43, 0.1) 40%, rgba(16, 28, 43, 0.6) 80%, rgba(16, 28, 43, 0.85) 100%);
 }
 .hero-film__grain {
   opacity: 0.08;

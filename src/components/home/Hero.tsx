@@ -45,11 +45,32 @@ export function Hero() {
 
   return (
     <section ref={ref} className="hero-film relative flex min-h-[100svh] w-full items-end overflow-hidden bg-ink-deep">
-      <motion.div className="absolute inset-[-6%]" style={reduced ? undefined : { y: mediaY, scale: mediaScale }} initial={{ opacity: 0, scale: reduced ? 1 : 1.08 }} animate={ready ? { opacity: 1, scale: 1 } : { opacity: 0 }} transition={{ duration: 1.8, ease: EASE_OUT, delay: sequence.media }}>
+      <motion.div
+        className="absolute inset-[-6%]"
+        style={reduced ? undefined : { y: mediaY, scale: mediaScale }}
+        initial={{ opacity: 1, scale: reduced ? 1 : 1.04 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1.2, ease: EASE_OUT }}
+      >
         {heroMedia.heroVideoSrc ? (
-          <video id="hero-film" className="h-full w-full object-cover" src={heroMedia.heroVideoSrc} poster={heroMedia.heroPoster} autoPlay muted={videoMuted} loop playsInline preload="metadata" aria-hidden="true" />
+          <video
+            id="hero-film"
+            className="h-full w-full object-cover opacity-90"
+            src={heroMedia.heroVideoSrc}
+            poster={heroMedia.heroPoster}
+            autoPlay
+            muted={videoMuted}
+            loop
+            playsInline
+            preload="auto"
+            aria-hidden="true"
+          />
         ) : (
-          <motion.img src={heroMedia.heroPoster} alt="" aria-hidden="true" className="h-full w-full object-cover" animate={reduced ? undefined : { scale: [1, 1.025, 1], x: [0, '-0.6%', 0] }} transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }} />
+          <img
+            src={heroMedia.heroPoster}
+            alt="Kala Creative Studio Pune"
+            className="h-full w-full object-cover opacity-90"
+          />
         )}
       </motion.div>
 

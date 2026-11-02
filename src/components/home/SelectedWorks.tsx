@@ -45,7 +45,7 @@ export function SelectedWorks() {
       onMouseLeave={() => setPaused(false)}
     >
       <div className="mx-auto max-w-shell">
-        <div className="grid w-full items-center gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
+        <div className="grid w-full items-center gap-12 lg:grid-cols-[1fr_1.15fr] lg:gap-16">
           {/* Left Column: Context & Copy */}
           <div className="relative z-20 max-w-xl">
             <Reveal y={16}>
@@ -90,44 +90,32 @@ export function SelectedWorks() {
               </ul>
             </div>
 
-            {/* Interactive Controls */}
-            <div className="mt-10 flex flex-wrap items-center justify-between gap-6 border-t border-bone/15 pt-6">
-              {/* Pagination indicators */}
-              <div className="flex items-center gap-2">
-                {projects.map((p, index) => (
+            {/* Interactive Controls & Thumbnails */}
+            <div className="mt-10 border-t border-bone/15 pt-6">
+              <div className="flex flex-wrap items-center justify-between gap-4">
+                {/* Prev / Next & View Link */}
+                <div className="flex items-center gap-3">
                   <button
-                    key={p.slug}
                     type="button"
-                    onClick={() => setActive(index)}
-                    className={`h-1.5 rounded-full transition-all duration-300 ${
-                      index === active ? 'w-8 bg-gold' : 'w-2 bg-bone/25 hover:bg-bone/50'
-                    }`}
-                    aria-label={`Switch to ${p.title}`}
-                  />
-                ))}
-                <span className="ml-3 font-sans text-xs text-bone/50 tabular-nums">
-                  0{active + 1} / 0{projects.length}
-                </span>
-              </div>
+                    onClick={handlePrev}
+                    className="flex h-9 w-9 items-center justify-center rounded-full border border-bone/25 text-bone/70 hover:border-gold hover:text-gold transition-colors"
+                    aria-label="Previous work"
+                  >
+                    <ArrowLeftIcon className="h-4 w-4" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleNext}
+                    className="flex h-9 w-9 items-center justify-center rounded-full border border-bone/25 text-bone/70 hover:border-gold hover:text-gold transition-colors"
+                    aria-label="Next work"
+                  >
+                    <ArrowRightIcon className="h-4 w-4" />
+                  </button>
+                  <span className="font-sans text-xs text-bone/50 tabular-nums">
+                    0{active + 1} / 0{projects.length}
+                  </span>
+                </div>
 
-              {/* Prev / Next & View Link */}
-              <div className="flex items-center gap-3">
-                <button
-                  type="button"
-                  onClick={handlePrev}
-                  className="flex h-9 w-9 items-center justify-center rounded-full border border-bone/25 text-bone/70 hover:border-gold hover:text-gold transition-colors"
-                  aria-label="Previous work"
-                >
-                  <ArrowLeftIcon className="h-4 w-4" />
-                </button>
-                <button
-                  type="button"
-                  onClick={handleNext}
-                  className="flex h-9 w-9 items-center justify-center rounded-full border border-bone/25 text-bone/70 hover:border-gold hover:text-gold transition-colors"
-                  aria-label="Next work"
-                >
-                  <ArrowRightIcon className="h-4 w-4" />
-                </button>
                 <Link
                   to={`/portfolio/${activeProject.slug}`}
                   className="inline-flex items-center gap-1.5 border border-gold bg-gold/10 px-4 py-2 font-sans text-xs uppercase tracking-widest text-gold hover:bg-gold hover:text-ink-deep transition-all"
@@ -136,24 +124,49 @@ export function SelectedWorks() {
                   <ArrowUpRightIcon className="h-3.5 w-3.5" />
                 </Link>
               </div>
+
+              {/* Interactive Thumbnail Strip */}
+              <div className="mt-6 flex gap-3 overflow-x-auto pb-2">
+                {projects.map((p, index) => (
+                  <button
+                    key={p.slug}
+                    type="button"
+                    onClick={() => setActive(index)}
+                    className={`relative h-14 w-20 shrink-0 overflow-hidden rounded border transition-all duration-300 ${
+                      index === active
+                        ? 'border-gold ring-2 ring-gold/40 opacity-100 scale-105'
+                        : 'border-bone/20 opacity-50 hover:opacity-80'
+                    }`}
+                    aria-label={`Select ${p.title}`}
+                  >
+                    <img
+                      src={p.image}
+                      alt={p.title}
+                      className="h-full w-full object-cover"
+                    />
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
 
-          {/* Right Column: Hero Visual Card */}
+          {/* Right Column: Hero Visual Card with clear, visible photograph */}
           <div className="relative">
             <Link
               to={`/portfolio/${activeProject.slug}`}
-              className="group block relative aspect-[4/3] sm:aspect-[16/11] w-full overflow-hidden border border-bone/20 shadow-2xl bg-ink"
+              className="group block relative aspect-[4/3] sm:aspect-[16/11] w-full overflow-hidden border border-bone/20 shadow-2xl bg-black"
             >
               <img
+                key={activeProject.slug}
                 src={activeProject.image}
                 alt={activeProject.title}
                 className="h-full w-full object-cover transition-transform duration-700 ease-premium group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-ink-deep/90 via-ink-deep/20 to-transparent" />
+              {/* Subtle bottom gradient for readability only */}
+              <div className="absolute inset-0 bg-gradient-to-t from-ink-deep/85 via-transparent to-transparent" />
 
               <div className="absolute top-5 left-5">
-                <span className="rounded-full border border-gold/40 bg-ink-deep/70 px-3 py-1 font-sans text-[10px] uppercase tracking-widest text-gold-soft backdrop-blur-sm">
+                <span className="rounded-full border border-gold/40 bg-ink-deep/80 px-3 py-1 font-sans text-[10px] uppercase tracking-widest text-gold-soft backdrop-blur-sm">
                   {activeProject.category}
                 </span>
               </div>
@@ -167,7 +180,7 @@ export function SelectedWorks() {
                     {activeProject.title}
                   </h4>
                 </div>
-                <div className="flex h-10 w-10 items-center justify-center rounded-full border border-bone/30 bg-ink/60 text-bone backdrop-blur-sm group-hover:border-gold group-hover:bg-gold group-hover:text-ink-deep transition-all">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full border border-bone/30 bg-ink/70 text-bone backdrop-blur-sm group-hover:border-gold group-hover:bg-gold group-hover:text-ink-deep transition-all">
                   <ArrowUpRightIcon className="h-4 w-4" />
                 </div>
               </div>

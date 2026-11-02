@@ -55,18 +55,17 @@ export function CaseStudy() {
         <motion.img
           src={project.image}
           alt={project.title}
-          className="h-full w-full object-cover"
-          style={{ y: reduced ? undefined : imageY, scale: 1.08 }}
-          initial={{ opacity: 0 }}
+          className="h-full w-full object-cover opacity-95"
+          style={{ y: reduced ? undefined : imageY, scale: 1.05 }}
+          initial={{ opacity: 1 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1.1, ease: EASE_ENTRY }}
         />
 
         <div
           className="absolute inset-0"
           style={{
             background:
-              'linear-gradient(to top, rgba(16,28,43,0.95) 0%, rgba(16,28,43,0.35) 55%, rgba(16,28,43,0.65) 100%)'
+              'linear-gradient(to top, rgba(16,28,43,0.85) 0%, rgba(16,28,43,0.15) 50%, rgba(16,28,43,0.3) 100%)'
           }}
         />
 

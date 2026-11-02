@@ -1,18 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import {
   childVariants,
   EASE_ENTRY,
   groupVariants,
   revealTransition,
-  viewportOnce } from
-'../utils/motion';
+  viewportOnce
+} from '../utils/motion';
 
 interface RevealProps {
   children: React.ReactNode;
   className?: string;
   delay?: number;
-  /** Vertical travel in px. Kept small on purpose. */
   y?: number;
 }
 
@@ -26,11 +25,11 @@ export function Reveal({ children, className = '', delay = 0, y = 20 }: RevealPr
       initial={{ opacity: 0, y: reduced ? 0 : y }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={viewportOnce}
-      transition={{ ...revealTransition, delay }}>
-      
+      transition={{ ...revealTransition, delay }}
+    >
       {children}
-    </motion.div>);
-
+    </motion.div>
+  );
 }
 
 interface StaggerProps {
@@ -48,11 +47,11 @@ export function Stagger({ children, className = '', stagger = 0.08, delay = 0 }:
       variants={groupVariants(stagger, delay)}
       initial="hidden"
       whileInView="visible"
-      viewport={viewportOnce}>
-      
+      viewport={viewportOnce}
+    >
       {children}
-    </motion.div>);
-
+    </motion.div>
+  );
 }
 
 interface StaggerItemProps {
@@ -67,14 +66,14 @@ export function StaggerItem({ children, className = '' }: StaggerItemProps) {
     <motion.div
       className={className}
       variants={
-      reduced ?
-      { hidden: { opacity: 0 }, visible: { opacity: 1, transition: revealTransition } } :
-      childVariants
-      }>
-      
+        reduced
+          ? { hidden: { opacity: 0 }, visible: { opacity: 1, transition: revealTransition } }
+          : childVariants
+      }
+    >
       {children}
-    </motion.div>);
-
+    </motion.div>
+  );
 }
 
 interface ImageRevealProps {
@@ -83,11 +82,12 @@ interface ImageRevealProps {
   className?: string;
   imageClassName?: string;
   delay?: number;
-  /** Adds a hover zoom. Use for cards and clickable imagery only. */
   hoverZoom?: boolean;
 }
 
-/** An image that is uncovered by a rising mask, with the frame settling as it lands. */
+/**
+ * Robust image component that guarantees visibility without clipping or leaving a blue background.
+ */
 export function ImageReveal({
   src,
   alt,
@@ -97,33 +97,27 @@ export function ImageReveal({
   hoverZoom = false
 }: ImageRevealProps) {
   const reduced = useReducedMotion();
+  const [loaded, setLoaded] = useState(false);
 
   return (
-    <div className={`relative overflow-hidden bg-ink/5 ${className}`}>
+    <div className={`relative overflow-hidden bg-bone-dim ${className}`}>
       <motion.div
         className="h-full w-full"
-        initial={
-        reduced ?
-        { opacity: 0 } :
-        { clipPath: 'inset(100% 0% 0% 0%)', scale: 1.06 }
-        }
-        whileInView={
-        reduced ? { opacity: 1 } : { clipPath: 'inset(0% 0% 0% 0%)', scale: 1 }
-        }
-        viewport={viewportOnce}
-        transition={{ duration: 0.95, ease: EASE_ENTRY, delay }}>
-        
+        initial={reduced ? { opacity: 1 } : { opacity: 0.85, scale: 1.02 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true, amount: 0.05 }}
+        transition={{ duration: 0.6, ease: EASE_ENTRY, delay }}
+      >
         <img
           src={src}
           alt={alt}
-          loading="lazy"
-          className={`h-full w-full object-cover ${
-          hoverZoom ?
-          'transition-transform duration-500 ease-premium group-hover:scale-[1.04]' :
-          ''} ${
-          imageClassName}`} />
-        
+          loading="eager"
+          onLoad={() => setLoaded(true)}
+          className={`h-full w-full object-cover transition-all duration-700 ${
+            loaded ? 'opacity-100' : 'opacity-90'
+          } ${hoverZoom ? 'group-hover:scale-105' : ''} ${imageClassName}`}
+        />
       </motion.div>
-    </div>);
-
+    </div>
+  );
 }

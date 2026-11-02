@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import { SearchIcon, LayoutGridIcon, ListIcon } from 'lucide-react';
+import { SearchIcon, LayoutGridIcon, ListIcon, ArrowUpRightIcon } from 'lucide-react';
 import { PageHeader } from '../components/PageHeader';
 import { ProjectCard } from '../components/ProjectCard';
 import { ClosingCta } from '../components/ClosingCta';
@@ -56,7 +56,7 @@ export function Portfolio() {
                     onClick={() => setCategory(item)}
                     aria-pressed={active}
                     className={`relative py-1 font-sans text-[12px] uppercase tracking-[0.16em] transition-colors duration-200 ease-premium ${
-                      active ? 'text-ink font-medium' : 'text-ink/45 hover:text-ink/80'
+                      active ? 'text-ink font-semibold' : 'text-ink/45 hover:text-ink/80'
                     }`}
                   >
                     {item}
@@ -89,7 +89,7 @@ export function Portfolio() {
                 <button
                   type="button"
                   onClick={() => setLayoutMode('grid')}
-                  className={`p-1 rounded ${layoutMode === 'grid' ? 'bg-ink text-bone' : 'text-ink/50'}`}
+                  className={`p-1 rounded transition-colors ${layoutMode === 'grid' ? 'bg-ink text-bone' : 'text-ink/50'}`}
                   aria-label="Grid layout"
                 >
                   <LayoutGridIcon className="h-3.5 w-3.5" />
@@ -97,7 +97,7 @@ export function Portfolio() {
                 <button
                   type="button"
                   onClick={() => setLayoutMode('list')}
-                  className={`p-1 rounded ${layoutMode === 'list' ? 'bg-ink text-bone' : 'text-ink/50'}`}
+                  className={`p-1 rounded transition-colors ${layoutMode === 'list' ? 'bg-ink text-bone' : 'text-ink/50'}`}
                   aria-label="List layout"
                 >
                   <ListIcon className="h-3.5 w-3.5" />
@@ -121,7 +121,7 @@ export function Portfolio() {
                     initial={{ opacity: 0, y: reduced ? 0 : 16 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: reduced ? 0 : -8 }}
-                    transition={{ duration: 0.45, ease: EASE_ENTRY, delay: i * 0.04 }}
+                    transition={{ duration: 0.35, ease: EASE_ENTRY, delay: i * 0.03 }}
                     className={i % 2 === 1 ? 'md:pt-16' : undefined}
                   >
                     <ProjectCard
@@ -134,35 +134,42 @@ export function Portfolio() {
               </AnimatePresence>
             </div>
           ) : (
-            /* Editorial List View */
+            /* Editorial List View with High-Resolution Thumbnails */
             <div className="mt-10 divide-y divide-ink/15 border-y border-ink/15">
               {visible.map((project, i) => (
                 <Link
                   key={project.slug}
                   to={`/portfolio/${project.slug}`}
-                  className="group flex flex-col md:flex-row md:items-center justify-between gap-6 py-8 transition-colors hover:bg-gold/5 px-4 -mx-4"
+                  className="group flex flex-col md:flex-row md:items-center justify-between gap-6 py-6 transition-colors hover:bg-gold/5 px-4 -mx-4"
                 >
-                  <div className="flex items-center gap-6">
-                    <span className="font-sans text-xs text-gold-deep tabular-nums">
+                  <div className="flex items-center gap-5 sm:gap-6 min-w-0">
+                    <span className="font-sans text-xs text-gold-deep tabular-nums font-semibold shrink-0">
                       {String(i + 1).padStart(2, '0')}
                     </span>
-                    <div>
-                      <h2 className="font-display text-2xl sm:text-3xl font-light text-ink group-hover:text-gold-deep transition-colors">
+                    <div className="h-16 w-24 shrink-0 overflow-hidden rounded bg-bone-dim border border-ink/15 shadow-sm">
+                      <img
+                        src={project.image}
+                        alt={project.title}
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
+                    </div>
+                    <div className="min-w-0 truncate">
+                      <h2 className="font-display text-2xl sm:text-3xl font-light text-ink group-hover:text-gold-deep transition-colors truncate">
                         {project.title}
                       </h2>
-                      <p className="mt-1 font-sans text-xs text-ink/50">
+                      <p className="mt-1 font-sans text-xs text-ink/55 truncate">
                         {project.client} · {project.summary}
                       </p>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-8 self-end md:self-auto font-sans text-xs">
+                  <div className="flex items-center gap-6 self-end md:self-auto font-sans text-xs shrink-0">
                     <span className="rounded-full border border-ink/20 px-3 py-1 uppercase tracking-wider text-ink/60">
                       {project.category}
                     </span>
                     <span className="text-ink/40 tabular-nums">{project.year}</span>
-                    <span className="text-gold-deep uppercase tracking-widest font-medium">
-                      Inspect →
+                    <span className="inline-flex items-center gap-1 text-gold-deep uppercase tracking-widest font-medium group-hover:translate-x-1 transition-transform">
+                      Inspect <ArrowUpRightIcon className="h-3.5 w-3.5" />
                     </span>
                   </div>
                 </Link>

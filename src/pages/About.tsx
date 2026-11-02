@@ -186,7 +186,7 @@ export function About() {
           <Stagger className="mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8" stagger={0.08}>
             {team.map((member) => (
               <StaggerItem key={member.name} className="border border-ink/12 bg-white p-5">
-                <div className="overflow-hidden aspect-[4/5] w-full bg-ink">
+                <div className="overflow-hidden aspect-[4/5] w-full bg-bone-dim border border-ink/10">
                   <img
                     src={member.photo}
                     alt={member.name}
